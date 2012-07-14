@@ -170,12 +170,14 @@ ascii2prefix(char *string, prefix_t *prefix)
     slash = memchr(string, '/', len);
     if (slash) {
 	bitlen = strtol(slash + 1, &end, 10);
-	if (*end || (bitlen < 0) || ((slash - string) >= (int)sizeof(save)))
+	len = slash - string;
+
+	if (*end || (bitlen < 0) || len >= sizeof(save))
 	    return NULL;
 
 	/* copy the string to save. Avoid destroying the string */
-	memcpy(save, string, slash - string);
-	save[slash - string] = '\0';
+	memcpy(save, string, len);
+	save[len] = '\0';
 	string = save;
     } else {
 	bitlen = -1;
