@@ -203,6 +203,28 @@ p_print_nodes (int argc, VALUE *argv, VALUE self)
 }
 
 static VALUE
+p_nodes (VALUE self)
+{
+  VALUE buf = rb_str_new(0, 0);
+  char *cbuf;
+  patricia_tree_t *tree;
+  patricia_node_t *node;
+  Data_Get_Struct(self, patricia_tree_t, tree);
+
+  VALUE hash = rb_hash_new();
+  if (tree->head) {
+    PATRICIA_WALK(tree->head, node) {
+      rb_str_resize(buf, PATRICIA_MAXSTRLEN);
+      cbuf = RSTRING_PTR(buf);
+      prefix_toa2x(node->prefix, cbuf, 1);
+      rb_str_set_len(buf, strlen(cbuf));
+      rb_hash_aset(hash, buf, node->data);
+    } PATRICIA_WALK_END;
+  }
+  return hash;
+}
+
+static VALUE
 p_data (VALUE self)
 {
   VALUE user_data;
@@ -385,6 +407,7 @@ Init_rpatricia (void)
   /* derivatives of climb */
   rb_define_method(cPatricia, "num_nodes", p_num_nodes, 0);
   rb_define_method(cPatricia, "show_nodes", p_print_nodes, -1);
+  rb_define_method(cPatricia, "nodes", p_nodes, 0);
 
   /* destroy tree */
   rb_define_method(cPatricia, "destroy", p_destroy, 0); 

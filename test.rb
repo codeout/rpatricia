@@ -60,4 +60,7 @@ my_test(4 == t.num_nodes)
 puts "test: showing all nodes"
 t.show_nodes
 
+puts "test: return all nodes in Hash"
+my_test(t.nodes == {"127.0.0.0/24"=>"", "192.168.1.0/24"=>"", "192.168.2.0/24"=>"", "192.168.3.100/32"=>""})
+
 t.destroy
