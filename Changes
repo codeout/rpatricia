@@ -1,3 +1,6 @@
+1.0 2012/10/05
+ - Add Patricia#nodes methods to return all nodes as a Hash
+
 0.09 2012/07/18
  - fix bounds error leading to "invalid prefix" exceptions
 
