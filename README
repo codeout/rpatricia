@@ -165,6 +165,13 @@ show_nodes:
 
      This method prints all the nodes in the Patricia Trie.
 
+nodes:
+
+       pt.nodes
+
+     This method returns all the nodes and values in the Patricia Trie
+     as a Ruby Hash object.
+
 data:
 
        node.data
